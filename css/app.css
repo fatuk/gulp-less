@@ -1,0 +1,10 @@
+body {
+  background: green;
+}
+* {
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
+  transition: all 1s;
+}
+
+/*# sourceMappingURL=app.css.map */
