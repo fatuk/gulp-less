@@ -6,6 +6,9 @@ var browserSync = require('browser-sync');
 var minifyCSS = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
+// FTP
+var gutil = require('gulp-util');
+var ftp = require('gulp-ftp');
 
 var buildPath = 'build';
 
@@ -16,7 +19,7 @@ var buildPath = 'build';
  ******************************/
 gulp.task('default', [
 	'browser-sync',
-	'less',
+	'deploy',
 	'watch'
 ]);
 
@@ -26,6 +29,35 @@ gulp.task('default', [
 gulp.task('build', [
 	'less-min',
 ]);
+
+/******************************
+ * Deploy task
+ ******************************/
+gulp.task('deploy', function () {
+	gulp.run('less');
+	setTimeout(function () {
+		gulp.run('ftp');
+	}, 500)
+});
+
+/******************************
+ * FTP task
+ ******************************/
+gulp.task('ftp', function () {
+	return gulp.src([
+		'css/style.css',
+		'css/style.css.map'
+	])
+		.pipe(ftp({
+			host: '89.111.179.80',
+			user: 'less@u2957646.cpnl.hc.ru',
+			pass: '6-)E%J%kGcst'
+		}))
+	// you need to have some kind of stream after gulp-ftp to make sure it's flushed
+	// this can be a gulp plugin, gulp.dest, or any kind of stream
+	// here we use a passthrough stream
+	.pipe(gutil.noop());
+});
 
 
 /******************************
@@ -37,9 +69,7 @@ gulp.task('browser-sync', function () {
 	];
 
 	browserSync.init(files, {
-		server: {
-			baseDir: './'
-		},
+		proxy: "http://natd.wickedblog.ru/?page_id=16",
 		open: false
 	});
 });
@@ -48,14 +78,14 @@ gulp.task('browser-sync', function () {
  * Watch
  ******************************/
 gulp.task('watch', function () {
-	gulp.watch('less/*.less', ['less']);
+	gulp.watch('less/*.less', ['deploy']);
 });
 
 /******************************
  * Less
  ******************************/
 gulp.task('less', function () {
-	gulp.src('less/app.less')
+	gulp.src('less/style.less')
 		.pipe(sourcemaps.init())
 		.pipe(less())
 		.pipe(autoprefixer({
@@ -70,7 +100,7 @@ gulp.task('less', function () {
  * Less min
  ******************************/
 gulp.task('less-min', function () {
-	gulp.src('app/less/app.less')
+	gulp.src('less/style.less')
 		.pipe(less())
 		.pipe(autoprefixer({
 			browsers: ['last 5 versions'],

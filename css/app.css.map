@@ -1,1 +1,0 @@
-{"version":3,"sources":["layout.less","app.css"],"names":[],"mappings":"AAAA;EACC,mBAAA;ECCA;ADED;EACC,4BAAA;EAAA,uBAAA;EAAA,oBAAA;ECAA","file":"app.css","sourcesContent":["body {\n\tbackground: green;\n}\n\n* {\n\ttransition: all 1s;\n}\n","body {\n  background: green;\n}\n* {\n  transition: all 1s;\n}\n"],"sourceRoot":"/source/"}
