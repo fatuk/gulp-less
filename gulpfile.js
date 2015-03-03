@@ -50,8 +50,8 @@ gulp.task('ftp', function () {
 	])
 		.pipe(ftp({
 			host: '89.111.179.80',
-			user: 'less@u2957646.cpnl.hc.ru',
-			pass: '6-)E%J%kGcst'
+			user: 'user',
+			pass: '*******************'
 		}))
 	// you need to have some kind of stream after gulp-ftp to make sure it's flushed
 	// this can be a gulp plugin, gulp.dest, or any kind of stream
